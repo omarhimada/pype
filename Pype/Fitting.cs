@@ -60,9 +60,9 @@ namespace Pype
     #endregion
 
     /// <summary>
-    /// Initiate the HTTP request 
+    /// Initiate the HTTP request asynchronously
     /// </summary>
-    /// <returns>JObject</returns>
+    /// <returns>FittingResponse object</returns>
     public async Task<FittingResponse> SendRequest()
     {
       #region Validate all required parameters are present
