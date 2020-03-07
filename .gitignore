@@ -6,3 +6,5 @@
 /Pype/.vs/Pype/v16
 /Pype/obj
 /Pype/bin/Debug/netcoreapp3.1
+/Pype.Tests/bin/Debug/netcoreapp3.1
+/Pype.Tests/obj

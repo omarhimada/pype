@@ -2,11 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>1.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Description>FloPype is a generic API utility with built-in logging support, which aims to expedite implementation with third-parties.</Description>
+    <PackageProjectUrl>https://github.com/omarhimada/flopype</PackageProjectUrl>
+    <PackageIcon>blue-pipe.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/omarhimada/flopype</RepositoryUrl>
+    <PackageTags>api generic wrapper utility</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\blue-pipe.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\..\..\Downloads\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

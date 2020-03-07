@@ -80,6 +80,11 @@ namespace Pype
       }
       #endregion
 
+      if (Headers == null)
+      {
+        Headers = new Dictionary<string, string>();
+      }
+
       FittingResponse fittingResponse = new FittingResponse
       {
         Status = new FittingResponseStatus
