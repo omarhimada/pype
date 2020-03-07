@@ -3,7 +3,7 @@ FloPype is a generic API utility with built-in logging, which aims to expedite i
 
 #### GET example:
 ```` C#
-// Make a fitting to get animals from a the zoo API
+// Make a fitting to get animals from a zoo API
 Fitting animalsFitting = new Fitting
 {
   ApiBasePath = "https://the-zoo.com",
@@ -23,7 +23,7 @@ JsonConvert.DeserializeObject<List<Animal>>(animalsResponse.Result);
 ````
 #### POST example:
 ```` C#
-// Make a fitting to get animals from a the zoo API
+// Make a fitting to create a new animal
 Fitting createAnimalFitting = new Fitting
 {
   ApiBasePath = "https://the-zoo.com",
