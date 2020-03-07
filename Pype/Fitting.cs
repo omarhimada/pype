@@ -56,7 +56,7 @@ namespace Pype
     /// <summary>
     /// Parameters to include with either PUT or POST requests
     /// </summary>
-    public object Parameters { get; set; }
+    public Dictionary<string, object> Parameters { get; set; }
     #endregion
 
     /// <summary>
