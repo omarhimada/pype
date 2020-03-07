@@ -3,10 +3,9 @@
 ################################################################################
 
 /.vs
-/Pype/.vs/Pype/v16
+/Pype/.vs/
 /Pype/obj
-/Pype/bin/Debug/netcoreapp3.1
-/Pype.Tests/bin/Debug/netcoreapp3.1
-/Pype.Tests/obj
 /Pype/bin
-/Pype.Tests/bin/Release/netcoreapp3.1
+/Pype.Tests/bin
+/Pype.Tests/obj
+*.csproj.user
