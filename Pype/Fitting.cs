@@ -132,7 +132,7 @@ namespace Pype
           StreamReader reader = new StreamReader(dataStream);
           string responseFromServer = reader.ReadToEnd();
 
-          JObject json = JObject.Parse(responseFromServer);
+          JToken json = JToken.Parse(responseFromServer);
 
           reader.Close();
           dataStream.Close();

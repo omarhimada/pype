@@ -9,6 +9,6 @@ namespace Pype.Models
     public FittingResponseStatus Status { get; set; }
 
     [JsonProperty("result")]
-    public JObject Result { get; set; }
+    public JToken Result { get; set; }
   }
 }
