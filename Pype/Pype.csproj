@@ -12,6 +12,9 @@
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/omarhimada/flopype</RepositoryUrl>
     <PackageTags>api generic wrapper utility</PackageTags>
+    <PackageId>FloPype</PackageId>
+    <Authors>Omar Himada</Authors>
+    <Product>FloPype</Product>
   </PropertyGroup>
 
   <ItemGroup>
