@@ -51,7 +51,7 @@ namespace Pype
     /// <summary>
     /// Dictionary of additional headers to add to the request
     /// </summary>
-    public Dictionary<string, string> Headers { get; set; }
+    public Dictionary<string, string> Headers = new Dictionary<string, string>();
 
     /// <summary>
     /// Parameters to include with either PUT or POST requests
@@ -79,11 +79,6 @@ namespace Pype
         throw new ArgumentNullException(nameof(Method));
       }
       #endregion
-
-      if (Headers == null)
-      {
-        Headers = new Dictionary<string, string>();
-      }
 
       FittingResponse fittingResponse = new FittingResponse
       {
