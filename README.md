@@ -1,7 +1,7 @@
 # FloPype
 FloPype is a generic API utility with built-in logging, which aims to expedite implementation with third-parties.
 
-#### GET example:
+#### Simple GET example:
 ```` C#
 // Make a fitting to get animals from a zoo API
 Fitting animalsFitting = new Fitting
@@ -21,7 +21,7 @@ switch (animalsResponse.Status.Health) { ... }
 // Do something with the result
 JsonConvert.DeserializeObject<List<Animal>>(animalsResponse.Result);
 ````
-#### POST example:
+#### Simple POST example:
 ```` C#
 // Make a fitting to create a new animal
 Fitting createAnimalFitting = new Fitting
@@ -48,5 +48,23 @@ switch (createAnimalFitting.Status.Health) { ... }
 
 // Do something with the result
 JsonConvert.DeserializeObject<Animal>(createAnimalFitting.Result);
+````
+#### 'OpenFaucet' to return a Stream
+*Use this if you don't want to hold the response in memory for performance reasons.*
+````
+using (Stream stream = await _fitting.OpenFaucet())
+using (StreamReader sr = new StreamReader(stream))
+using (JsonReader reader = new JsonTextReader(sr))
+{
+    JsonSerializer serializer = new JsonSerializer();
+
+    // * For performance: read the JSON response from a stream
+    FittingResponse response = serializer.Deserialize<FittingResponse>(reader);
+
+    if (response.Status.Health == FittingResponseStatusHealth.Good)
+    {
+      return response.Result.ToObject<List<Offer>>();
+    }
+}
 ````
 ### https://www.nuget.org/packages/FloPype/
