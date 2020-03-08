@@ -1,5 +1,5 @@
 # FloPype
-FloPype is a generic API utility with built-in logging, which aims to expedite implementation with third-parties.
+FloPype is a generic API utility which aims to expedite implementation with third-parties. Includes ILogger support
 
 #### Simple GET example:
 ```` C#
