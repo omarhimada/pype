@@ -61,12 +61,64 @@ namespace Pype
         #endregion
 
         /// <summary>
-        /// Initiate the HTTP request asynchronously
+        /// Prepares a new FittingResponse object and sets its RequestUtcDateTime to now
         /// </summary>
-        /// <returns>FittingResponse object</returns>
-        public async Task<FittingResponse> SendRequest()
+        private FittingResponse PrepareNewResponse() =>
+          new FittingResponse
+          {
+              Status = new FittingResponseStatus
+              {
+                  RequestUtcDateTime = DateTime.UtcNow
+              }
+          };
+
+        /// <summary>
+        /// Prepares a new WebRequest object using the Fitting's properties
+        /// </summary>
+        private async Task<WebRequest> PrepareWebRequest()
         {
-            #region Validate all required parameters are present
+            string urlToRequestTo = ApiBasePath;
+
+            // Append RequestSuffix to the base path URL if one was provided to this method
+            if (!string.IsNullOrEmpty(RequestSuffix))
+            {
+                urlToRequestTo += RequestSuffix;
+            }
+
+            WebRequest webRequest = WebRequest.Create(urlToRequestTo);
+            webRequest.Method = Method;
+            webRequest.ContentType = string.IsNullOrEmpty(ContentType) ? DefaultContentType : ContentType;
+
+            foreach (string key in Headers.Keys)
+            {
+                webRequest.Headers.Add(key, Headers[key]);
+            }
+
+            // If PUT or POST serialize the parameters and include them in the request payload
+            switch (Method)
+            {
+                case Models.Method.Post:
+                case Models.Method.Put:
+                {
+                    // Write JSON to the WebRequest
+                    await using StreamWriter streamWriter = new StreamWriter(webRequest.GetRequestStream());
+                    string jsonData = JsonConvert.SerializeObject(Parameters, Formatting.Indented);
+
+                    streamWriter.Write(jsonData);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                    break;
+                }
+            }
+
+            return webRequest;
+        }
+
+        /// <summary>
+        /// Validates all required parameters are present
+        /// </summary>
+        private void ValidateParameters()
+        {
             if (string.IsNullOrEmpty(ApiBasePath))
             {
                 throw new ArgumentNullException(nameof(ApiBasePath));
@@ -79,51 +131,35 @@ namespace Pype
             {
                 throw new ArgumentNullException(nameof(Method));
             }
-            #endregion
+        }
 
-            FittingResponse fittingResponse = new FittingResponse
-            {
-                Status = new FittingResponseStatus
-                {
-                    RequestUtcDateTime = DateTime.UtcNow
-                }
-            };
+        /// <summary>
+        /// Returns the request stream - used for scenarios in which you don't want to hold the response in memory
+        /// (e.g.: deserializing large amounts of JSON)
+        /// </summary>
+        public async Task<Stream> OpenFaucet()
+        {
+            ValidateParameters();
+
+            FittingResponse fittingResponse = PrepareNewResponse();
+
+            WebRequest webRequest = await PrepareWebRequest();
+
+            return await webRequest.GetRequestStreamAsync();
+        }
+
+        /// <summary>
+        /// Initiate the HTTP request asynchronously
+        /// </summary>
+        public async Task<FittingResponse> SendRequest()
+        {
+            ValidateParameters();
+
+            FittingResponse fittingResponse = PrepareNewResponse();
 
             try
             {
-                string urlToRequestTo = ApiBasePath;
-
-                // Append RequestSuffix to the base path URL if one was provided to this method
-                if (!string.IsNullOrEmpty(RequestSuffix))
-                {
-                    urlToRequestTo += RequestSuffix;
-                }
-
-                WebRequest webRequest = WebRequest.Create(urlToRequestTo);
-                webRequest.Method = Method;
-                webRequest.ContentType = string.IsNullOrEmpty(ContentType) ? DefaultContentType : ContentType;
-
-                foreach (string key in Headers.Keys)
-                {
-                    webRequest.Headers.Add(key, Headers[key]);
-                }
-
-                // If PUT or POST serialize the parameters and include them in the request payload
-                switch (Method)
-                {
-                    case Models.Method.Post:
-                    case Models.Method.Put:
-                        {
-                            // Write JSON to the WebRequest
-                            await using StreamWriter streamWriter = new StreamWriter(webRequest.GetRequestStream());
-                            string jsonData = JsonConvert.SerializeObject(Parameters, Formatting.Indented);
-
-                            streamWriter.Write(jsonData);
-                            streamWriter.Flush();
-                            streamWriter.Close();
-                            break;
-                        }
-                }
+                WebRequest webRequest = await PrepareWebRequest();
 
                 WebResponse response = await webRequest.GetResponseAsync();
                 Stream dataStream = response.GetResponseStream();
@@ -160,7 +196,7 @@ namespace Pype
                         errorLogBuilder.Append($"Fitting SendRequest threw a WebException with status code {statusCode}");
                         break;
                     default:
-                      errorLogBuilder.Append($"Fitting SendRequest threw a WebException due to an unknown error");
+                        errorLogBuilder.Append($"Fitting SendRequest threw a WebException due to an unknown error");
                         break;
                 }
 
