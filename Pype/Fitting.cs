@@ -159,8 +159,8 @@ namespace Pype
                         int statusCode = (int)((HttpWebResponse)webException.Response).StatusCode;
                         errorLogBuilder.Append($"Fitting SendRequest threw a WebException with status code {statusCode}");
                         break;
-                    case WebExceptionStatus.UnknownError:
-                        errorLogBuilder.Append($"Fitting SendRequest threw a WebException due to an unknown error");
+                    default:
+                      errorLogBuilder.Append($"Fitting SendRequest threw a WebException due to an unknown error");
                         break;
                 }
 
