@@ -51,7 +51,7 @@ JsonConvert.DeserializeObject<Animal>(createAnimalFitting.Result);
 ````
 #### 'OpenFaucet' to return a Stream
 *Use this if you don't want to hold the response in memory for performance reasons.*
-````
+````C#
 using (Stream stream = await _fitting.OpenFaucet())
 using (StreamReader sr = new StreamReader(stream))
 using (JsonReader reader = new JsonTextReader(sr))
