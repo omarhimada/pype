@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.0.9</Version>
+    <Version>1.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Description>FloPype is a generic API utility with built-in logging support, which aims to expedite implementation with third-parties.</Description>
+    <Description>FloPype is a generic API utility with built-in ILogger support, which aims to expedite implementation with third-parties.</Description>
     <PackageProjectUrl>https://github.com/omarhimada/flopype</PackageProjectUrl>
     <PackageIcon>blue-pipe.png</PackageIcon>
     <PackageIconUrl />
@@ -19,7 +19,7 @@
 
 	<PropertyGroup>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<AssemblyVersion>1.0.9.0</AssemblyVersion>
+		<AssemblyVersion>1.1.0.0</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
