@@ -179,6 +179,8 @@ namespace Pype
             }
             catch (WebException webException)
             {
+                fittingResponse.ExceptionThrown = webException;
+
                 StringBuilder errorLogBuilder = new StringBuilder();
 
                 switch (webException.Status)
@@ -205,6 +207,8 @@ namespace Pype
             }
             catch (Exception exception)
             {
+                fittingResponse.ExceptionThrown = exception;
+
                 fittingResponse.Status.Health = FittingResponseStatusHealth.Bad;
 
                 _logger?.LogError(
