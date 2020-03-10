@@ -141,8 +141,6 @@ namespace Pype
         {
             ValidateParameters();
 
-            FittingResponse fittingResponse = PrepareNewResponse();
-
             WebRequest webRequest = await PrepareWebRequest();
 
             return await webRequest.GetRequestStreamAsync();
