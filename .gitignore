@@ -3,9 +3,10 @@
 ################################################################################
 
 /.vs
-/Pype/.vs/
-/Pype/obj
+/Pype/.vs
 /Pype/bin
+/Pype/obj
+/Pype.Tests/.vs
 /Pype.Tests/bin
 /Pype.Tests/obj
 *.csproj.user

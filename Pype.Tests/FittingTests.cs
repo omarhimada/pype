@@ -11,7 +11,7 @@ namespace Pype.Tests
     [TestMethod]
     public async Task CanMakeGetRequests()
     {
-      Fitting fitting = new Fitting
+      Fitting<object> fitting = new Fitting<object>
       {
         ApiBasePath = "https://xkcd.com",
         RequestSuffix = "/info.0.json",

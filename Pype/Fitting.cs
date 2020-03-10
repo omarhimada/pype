@@ -14,16 +14,16 @@ namespace Pype
     /// <summary>
     /// Generic API utility for integrating with third-parties
     /// </summary>
-    public class Fitting
+    public class Fitting<T>
     {
-        private readonly ILogger<Fitting> _logger;
+        private readonly ILogger<T> _logger;
 
         /// <summary>
         /// If no ContentType is provided this default value will be assumed
         /// </summary>
         private const string DefaultContentType = "application/json";
 
-        public Fitting(ILogger<Fitting> logger = null)
+        public Fitting(ILogger<T> logger = null)
         {
             _logger = logger;
         }
