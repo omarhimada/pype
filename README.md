@@ -6,7 +6,7 @@ FloPype is a generic API utility which aims to expedite implementation with thir
 #### Simple GET example:
 ```` C#
 // Make a fitting to get animals from a zoo API
-Fitting animalsFitting = new Fitting
+Fitting<AnimalService> animalsFitting = new Fitting<AnimalService>
 {
   ApiBasePath = "https://the-zoo.com",
   RequestSuffix = "/api/animals",
@@ -26,7 +26,7 @@ JsonConvert.DeserializeObject<List<Animal>>(animalsResponse.Result);
 #### Simple POST example:
 ```` C#
 // Make a fitting to create a new animal
-Fitting createAnimalFitting = new Fitting
+Fitting<AnimalService> createAnimalFitting = new Fitting<AnimalService>
 {
   ApiBasePath = "https://the-zoo.com",
   RequestSuffix = "/api/animals/create",
