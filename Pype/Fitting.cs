@@ -14,8 +14,10 @@ namespace Pype
     /// <summary>
     /// Generic API utility for integrating with third-parties
     /// </summary>
-    public class Fitting<T>
+    public class Fitting<T> : IAsyncDisposable, IDisposable
     {
+        private bool _disposed;
+
         private readonly ILogger<T> _logger;
 
         /// <summary>
@@ -99,16 +101,16 @@ namespace Pype
             {
                 case Models.Method.Post:
                 case Models.Method.Put:
-                {
-                    // Write JSON to the WebRequest
-                    await using StreamWriter streamWriter = new StreamWriter(webRequest.GetRequestStream());
-                    string jsonData = JsonConvert.SerializeObject(Parameters, Formatting.Indented);
+                    {
+                        // Write JSON to the WebRequest
+                        await using StreamWriter streamWriter = new StreamWriter(webRequest.GetRequestStream());
+                        string jsonData = JsonConvert.SerializeObject(Parameters, Formatting.Indented);
 
-                    streamWriter.Write(jsonData);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                    break;
-                }
+                        streamWriter.Write(jsonData);
+                        streamWriter.Flush();
+                        streamWriter.Close();
+                        break;
+                    }
             }
 
             return webRequest;
@@ -121,14 +123,16 @@ namespace Pype
         {
             if (string.IsNullOrEmpty(ApiBasePath))
             {
+                _logger?.LogError(
+                  $"Fitting threw an exception because it does not have an ApiBasePath");
+
                 throw new ArgumentNullException(nameof(ApiBasePath));
-            }
-            if (string.IsNullOrEmpty(RequestSuffix))
-            {
-                throw new ArgumentNullException(nameof(RequestSuffix));
             }
             if (string.IsNullOrEmpty(Method))
             {
+                _logger?.LogError(
+                  $"Fitting threw an exception because it does not have a Method specified");
+
                 throw new ArgumentNullException(nameof(Method));
             }
         }
@@ -175,6 +179,9 @@ namespace Pype
 
                     fittingResponse.Status.Health = FittingResponseStatusHealth.Good;
                     fittingResponse.Result = json;
+
+                    _logger?.LogInformation(
+                      $"Fitting successfully received a response from {webRequest.RequestUri.ToString()}");
                 }
             }
             catch (WebException webException)
@@ -218,5 +225,34 @@ namespace Pype
             fittingResponse.Status.ResponseUtcDateTime = DateTime.UtcNow;
             return fittingResponse;
         }
+
+        #region Disposable implementation
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            _disposed = true;
+        }
+
+        public virtual ValueTask DisposeAsync()
+        {
+            try
+            {
+                Dispose();
+                return default;
+            }
+            catch (Exception exception)
+            {
+                return new ValueTask(Task.FromException(exception));
+            }
+        }
+        #endregion
     }
 }
