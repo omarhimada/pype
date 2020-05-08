@@ -207,10 +207,13 @@ namespace Pype
                         break;
                 }
 
+                errorLogBuilder.AppendLine(
+                  $"{Environment.NewLine}{webException.Message}{Environment.NewLine}{webException.StackTrace}");
+
                 fittingResponse.Status.Health = FittingResponseStatusHealth.Bad;
 
                 _logger?.LogError(
-                  $"{errorLogBuilder}{Environment.NewLine}{webException.Message}{Environment.NewLine}{webException.StackTrace}");
+                  $"{errorLogBuilder}");
             }
             catch (Exception exception)
             {
