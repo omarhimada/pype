@@ -1,5 +1,5 @@
-# FloPype
-FloPype is a generic API utility which aims to expedite implementation with third-parties. Includes ILogger support
+# Pype
+Pype is a generic API utility which aims to expedite implementation with third-parties. Includes ILogger support
 
 **https://www.nuget.org/packages/FloPype/**
 
