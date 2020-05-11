@@ -3,30 +3,31 @@ Pype is a generic API utility which aims to expedite implementation with third-p
 
 **https://www.nuget.org/packages/FloPype/**
 
-#### Simple GET example:
+### GET example:
 ```` C#
 // Make a fitting to get animals from a zoo API
-Fitting<AnimalService> animalsFitting = new Fitting<AnimalService>
+Fitting<Animal> animalsFitting = new Fitting<Animal>
 {
   ApiBasePath = "https://the-zoo.com",
-  RequestSuffix = "/api/animals",
+  RequestSuffix = "/api/animals/123",
   ContentType = "application/json",
   Method = "GET"
 };
 
 // Send the request asynchronously 
-FittingResponse animalsResponse = await animalsFitting.SendRequest();
+FittingResponse<Animal> response = await animalsFitting.SendRequest();
 
 // Check the status of the response
-switch (animalsResponse.Status.Health) { ... }
+switch (response.Status.Health) { ... }
 
 // Do something with the result
-JsonConvert.DeserializeObject<List<Animal>>(animalsResponse.Result);
+Animal myAnimal = response.Result;
 ````
-#### Simple POST example:
+
+#### POST example:
 ```` C#
 // Make a fitting to create a new animal
-Fitting<AnimalService> createAnimalFitting = new Fitting<AnimalService>
+Fitting<Animal> createAnimalFitting = new Fitting<Animal>
 {
   ApiBasePath = "https://the-zoo.com",
   RequestSuffix = "/api/animals/create",
@@ -43,15 +44,16 @@ createAnimalFitting.Parameters = new Dictionary<string, object>
 };
 
 // Send the request asynchronously 
-FittingResponse createAnimalFitting = await createAnimalFitting.SendRequest();
+FittingResponse<Animal> response = await createAnimalFitting.SendRequest();
 
 // Check the status of the response
-switch (createAnimalFitting.Status.Health) { ... }
+switch (response.Status.Health) { ... }
 
 // Do something with the result
-JsonConvert.DeserializeObject<Animal>(createAnimalFitting.Result);
+Animal myNewAnimal = response.Result;
 ````
-#### 'OpenFaucet' to return a Stream
+
+### 'OpenFaucet' to return a Stream
 *Use this if you don't want to hold the response in memory for performance reasons.*
 ````C#
 using (Stream stream = await _fitting.OpenFaucet())
@@ -61,11 +63,11 @@ using (JsonReader reader = new JsonTextReader(sr))
     JsonSerializer serializer = new JsonSerializer();
 
     // * For performance: read the JSON response from a stream
-    FittingResponse response = serializer.Deserialize<FittingResponse>(reader);
+    FittingResponse<SomeBigThing> response = serializer.Deserialize<FittingResponse<SomeBigThing>>(reader);
 
     if (response.Status.Health == FittingResponseStatusHealth.Good)
     {
-      return response.Result.ToObject<List<Offer>>();
+      return response.Result;
     }
 }
 ````
