@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Description>FloPype is a generic API utility with built-in ILogger support, which aims to expedite implementation with third-parties.</Description>
+    <Description>FloPype is a generic API utility with built-in ILogger support, which aims to expedite integration with third-parties.</Description>
     <PackageProjectUrl>https://github.com/omarhimada/pype</PackageProjectUrl>
     <PackageIcon>blue-pipe.png</PackageIcon>
     <PackageIconUrl />
