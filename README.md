@@ -1,5 +1,7 @@
 # Pype
-Pype is a generic API utility which aims to expedite implementation with third-parties. Includes ILogger support
+Pype is a generic API utility which aims to expedite integration with third-parties. Includes ILogger support
+
+***Breaking changes:*** *version 1.1.5 includes a refactoring of the generics implementation.*
 
 **https://www.nuget.org/packages/FloPype/**
 
@@ -63,11 +65,8 @@ using (JsonReader reader = new JsonTextReader(sr))
     JsonSerializer serializer = new JsonSerializer();
 
     // * For performance: read the JSON response from a stream
-    FittingResponse<SomeBigThing> response = serializer.Deserialize<FittingResponse<SomeBigThing>>(reader);
-
-    if (response.Status.Health == FittingResponseStatusHealth.Good)
-    {
-      return response.Result;
-    }
+    SomeBigThing response = serializer.Deserialize<SomeBigThing>(reader);
+    
+    ...
 }
 ````
