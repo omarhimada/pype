@@ -6,7 +6,7 @@ Pype is a generic API utility which aims to expedite implementation with third-p
 ### GET example:
 ```` C#
 // Make a fitting to get animals from a zoo API
-Fitting<Animal> animalsFitting = new Fitting<Animal>
+Fitting animalsFitting = new Fitting
 {
   ApiBasePath = "https://the-zoo.com",
   RequestSuffix = "/api/animals/123",
@@ -15,7 +15,7 @@ Fitting<Animal> animalsFitting = new Fitting<Animal>
 };
 
 // Send the request asynchronously 
-FittingResponse<Animal> response = await animalsFitting.SendRequest();
+FittingResponse<Animal> response = await animalsFitting.SendRequest<Animal>();
 
 // Check the status of the response
 switch (response.Status.Health) { ... }
@@ -27,7 +27,7 @@ Animal myAnimal = response.Result;
 #### POST example:
 ```` C#
 // Make a fitting to create a new animal
-Fitting<Animal> createAnimalFitting = new Fitting<Animal>
+Fitting createAnimalFitting = new Fitting
 {
   ApiBasePath = "https://the-zoo.com",
   RequestSuffix = "/api/animals/create",
@@ -44,7 +44,7 @@ createAnimalFitting.Parameters = new Dictionary<string, object>
 };
 
 // Send the request asynchronously 
-FittingResponse<Animal> response = await createAnimalFitting.SendRequest();
+FittingResponse<Animal> response = await createAnimalFitting.SendRequest<Animal>();
 
 // Check the status of the response
 switch (response.Status.Health) { ... }
