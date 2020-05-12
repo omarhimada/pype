@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Pype.Models;
 using System;
 using System.Collections.Generic;
@@ -14,18 +13,18 @@ namespace Pype
     /// <summary>
     /// Generic API utility for integrating with third-parties
     /// </summary>
-    public class Fitting<T> : IAsyncDisposable, IDisposable
+    public class Fitting : IAsyncDisposable, IDisposable
     {
         private bool _disposed;
 
-        private readonly ILogger<T> _logger;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// If no ContentType is provided this default value will be assumed
         /// </summary>
         private const string DefaultContentType = "application/json";
 
-        public Fitting(ILogger<T> logger = null)
+        public Fitting(ILogger logger = null)
         {
             _logger = logger;
         }
@@ -65,8 +64,8 @@ namespace Pype
         /// <summary>
         /// Prepares a new FittingResponse object and sets its RequestUtcDateTime to now
         /// </summary>
-        private FittingResponse PrepareNewResponse() =>
-          new FittingResponse
+        private FittingResponse<T> PrepareNewResponse<T>() where T : class =>
+          new FittingResponse<T>
           {
               Status = new FittingResponseStatus
               {
@@ -153,11 +152,11 @@ namespace Pype
         /// <summary>
         /// Initiate the HTTP request asynchronously
         /// </summary>
-        public async Task<FittingResponse> SendRequest()
+        public async Task<FittingResponse<T>> SendRequest<T>() where T : class
         {
             ValidateParameters();
 
-            FittingResponse fittingResponse = PrepareNewResponse();
+            FittingResponse<T> fittingResponse = PrepareNewResponse<T>();
 
             try
             {
@@ -171,14 +170,15 @@ namespace Pype
                     StreamReader reader = new StreamReader(dataStream);
                     string responseFromServer = reader.ReadToEnd();
 
-                    JToken json = JToken.Parse(responseFromServer);
+                    //JToken json = JToken.Parse(responseFromServer);
+                    T result = JsonConvert.DeserializeObject<T>(responseFromServer);
 
                     reader.Close();
                     dataStream.Close();
                     response.Close();
 
                     fittingResponse.Status.Health = FittingResponseStatusHealth.Good;
-                    fittingResponse.Result = json;
+                    fittingResponse.Result = result;
 
                     _logger?.LogInformation(
                       $"Fitting successfully received a response from {webRequest.RequestUri.ToString()}");

@@ -10,3 +10,4 @@
 /Pype.Tests/bin
 /Pype.Tests/obj
 *.csproj.user
+.DS_Store

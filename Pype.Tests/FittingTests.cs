@@ -11,7 +11,7 @@ namespace Pype.Tests
         [TestMethod]
         public async Task CanMakeGetRequests()
         {
-            Fitting<object> fitting = new Fitting<object>
+            Fitting fitting = new Fitting
             {
                 ApiBasePath = "https://xkcd.com",
                 RequestSuffix = "/info.0.json",
@@ -19,7 +19,7 @@ namespace Pype.Tests
                 Method = "GET"
             };
 
-            FittingResponse response = await fitting.SendRequest();
+            FittingResponse<object> response = await fitting.SendRequest<object>();
 
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Status.Health == FittingResponseStatusHealth.Good);
@@ -28,7 +28,7 @@ namespace Pype.Tests
         [TestMethod]
         public async Task CanMakePostRequests()
         {
-            Fitting<object> fitting = new Fitting<object>
+            Fitting fitting = new Fitting
             {
                 ApiBasePath = "https://localhost:5001",
                 RequestSuffix = "/api/offers",
@@ -36,7 +36,7 @@ namespace Pype.Tests
                 Method = "POST"
             };
 
-            FittingResponse response = await fitting.SendRequest();
+            FittingResponse<object> response = await fitting.SendRequest<object>();
 
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Status.Health == FittingResponseStatusHealth.Good);
