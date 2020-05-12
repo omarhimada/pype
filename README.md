@@ -65,11 +65,8 @@ using (JsonReader reader = new JsonTextReader(sr))
     JsonSerializer serializer = new JsonSerializer();
 
     // * For performance: read the JSON response from a stream
-    FittingResponse<SomeBigThing> response = serializer.Deserialize<FittingResponse<SomeBigThing>>(reader);
-
-    if (response.Status.Health == FittingResponseStatusHealth.Good)
-    {
-      return response.Result;
-    }
+    SomeBigThing response = serializer.Deserialize<SomeBigThing>(reader);
+    
+    ...
 }
 ````
