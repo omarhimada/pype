@@ -1,6 +1,8 @@
 # Pype
 Pype is a generic API utility which aims to expedite integration with third-parties. Includes ILogger support
 
+![Nuget](https://img.shields.io/nuget/dt/Flopype?logo=nuget&style=flat-square)
+
 ***Breaking changes:*** *version 1.1.5 includes a refactoring of the generics implementation.*
 
 **https://www.nuget.org/packages/FloPype/**
